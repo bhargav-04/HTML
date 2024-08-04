@@ -27,18 +27,54 @@
             overflow: hidden;
         }
         #target {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #ff4081;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px #ff4081;
-            transition: all 0.2s ease;
-        }
-        #target:hover {
-            transform: scale(1.1);
-        }
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff4081;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff4081;
+    transition: transform 0.1s ease;
+    animation: bounce 5s infinite alternate, glow 2s infinite alternate;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(100%, 100%);
+    }
+    50% {
+        transform: translate(200%, 0);
+    }
+    75% {
+        transform: translate(100%, -100%);
+    }
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px #ff4081;
+    }
+    to {
+        box-shadow: 0 0 20px #ff4081, 0 0 30px #ff4081;
+    }
+}
+
+#target:hover {
+    transform: scale(1.1);
+}
+
+#target.pop {
+    animation: popAnimation 0.3s ease;
+}
+
+@keyframes popAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
         #score {
             position: absolute;
             top: 20px;
@@ -77,6 +113,46 @@
         .blur {
             filter: blur(5px);
         }
+        footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.footer-content {
+    display: inline-block;
+    animation: bounce 0.5s ease infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0px);
+    }
+    to {
+        transform: translateY(-5px);
+    }
+}
+
+.heart {
+    color: #ff4081;
+    display: inline-block;
+    animation: beat 0.8s ease infinite;
+}
+
+@keyframes beat {
+    0%, 50%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.2); }
+}
+.anjali{
+    text-decoration: none;
+    color: #4caf50;
+}
     </style>
 </head>
 <body>
@@ -87,6 +163,9 @@
         <button id="startButton" class="button">Start Game</button>
         <button id="restartButton" class="button" style="display: none;">Restart</button>
     </div>
+    <footer>
+        <div class="footer-content">Made with <span class="heart">❤️</span> By <a href="https://github.com/Anjaliavv51" class="anjali">Anjali</a></div>
+    </footer>
 
     <script>
         const gameContainer = document.getElementById('gameContainer');
@@ -125,7 +204,6 @@
             clearInterval(gameInterval);
             target.style.display = 'none';
             restartButton.style.display = 'block';
-            gameContainer.classList.add('blur');
         }
 
         function moveTarget() {
@@ -154,9 +232,7 @@
         startButton.addEventListener('click', startGame);
         restartButton.addEventListener('click', startGame);
 
-        // Initial setup
         target.style.display = 'none';
-        gameContainer.classList.add('blur');
     </script>
 </body>
 </html>
