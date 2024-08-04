@@ -25,43 +25,71 @@
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             overflow: hidden;
-            transition: filter 0.5s ease;
         }
         #target {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff4081;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ff4081;
+    transition: transform 0.1s ease;
+    animation: bounce 5s infinite alternate, glow 2s infinite alternate;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(100%, 100%);
+    }
+    50% {
+        transform: translate(200%, 0);
+    }
+    75% {
+        transform: translate(100%, -100%);
+    }
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0 0 10px #ff4081;
+    }
+    to {
+        box-shadow: 0 0 20px #ff4081, 0 0 30px #ff4081;
+    }
+}
+
+#target:hover {
+    transform: scale(1.1);
+}
+
+#target.pop {
+    animation: popAnimation 0.3s ease;
+}
+
+@keyframes popAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+        #score {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #ff4081;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 10px #ff4081;
-            transition: all 0.2s ease, transform 0.1s ease;
-        }
-        #target:hover {
-            transform: scale(1.1);
-        }
-        #target.pop {
-            animation: popAnimation 0.3s ease;
-        }
-        @keyframes popAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-        #score, #timer {
-            position: absolute;
+            top: 20px;
+            left: 20px;
             font-size: 24px;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
-        }
-        #score {
-            top: 20px;
-            left: 20px;
         }
         #timer {
+            position: absolute;
             top: 20px;
             right: 20px;
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         .button {
             position: absolute;
@@ -77,31 +105,54 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
-            animation: pulseAnimation 2s infinite;
         }
         .button:hover {
             background-color: #45a049;
             box-shadow: 0 0 30px rgba(76, 175, 80, 0.8);
         }
-        @keyframes pulseAnimation {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
         .blur {
             filter: blur(5px);
         }
-        #gameOver {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 48px;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
+        footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 18px;
+}
+
+.footer-content {
+    display: inline-block;
+    animation: bounce 0.5s ease infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0px);
+    }
+    to {
+        transform: translateY(-5px);
+    }
+}
+
+.heart {
+    color: #ff4081;
+    display: inline-block;
+    animation: beat 0.8s ease infinite;
+}
+
+@keyframes beat {
+    0%, 50%, 100% { transform: scale(1); }
+    25%, 75% { transform: scale(1.2); }
+}
+.anjali{
+    text-decoration: none;
+    color: #4caf50;
+}
     </style>
 </head>
 <body>
@@ -111,8 +162,10 @@
         <div id="target"></div>
         <button id="startButton" class="button">Start Game</button>
         <button id="restartButton" class="button" style="display: none;">Restart</button>
-        <div id="gameOver">Game Over!</div>
     </div>
+    <footer>
+        <div class="footer-content">Made with <span class="heart">❤️</span> By <a href="https://github.com/Anjaliavv51" class="anjali">Anjali</a></div>
+    </footer>
 
     <script>
         const gameContainer = document.getElementById('gameContainer');
@@ -121,7 +174,6 @@
         const timerElement = document.getElementById('timer');
         const startButton = document.getElementById('startButton');
         const restartButton = document.getElementById('restartButton');
-        const gameOverElement = document.getElementById('gameOver');
 
         let score = 0;
         let timeLeft = 30;
@@ -135,7 +187,6 @@
             gameContainer.classList.remove('blur');
             startButton.style.display = 'none';
             restartButton.style.display = 'none';
-            gameOverElement.style.opacity = '0';
             target.style.display = 'block';
             moveTarget();
             gameInterval = setInterval(updateGame, 1000);
@@ -153,8 +204,6 @@
             clearInterval(gameInterval);
             target.style.display = 'none';
             restartButton.style.display = 'block';
-            gameContainer.classList.add('blur');
-            gameOverElement.style.opacity = '1';
         }
 
         function moveTarget() {
@@ -162,47 +211,28 @@
             const maxY = gameContainer.clientHeight - target.clientHeight;
             const randomX = Math.floor(Math.random() * maxX);
             const randomY = Math.floor(Math.random() * maxY);
-            target.style.transition = 'none';
             target.style.left = randomX + 'px';
             target.style.top = randomY + 'px';
-            setTimeout(() => {
-                target.style.transition = 'all 0.2s ease';
-            }, 50);
         }
 
         function updateScore() {
             scoreElement.textContent = `Score: ${score}`;
-            scoreElement.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                scoreElement.style.transform = 'scale(1)';
-            }, 200);
         }
 
         function updateTimer() {
             timerElement.textContent = `Time: ${timeLeft}`;
-            if (timeLeft <= 10) {
-                timerElement.style.color = '#ff4081';
-            } else {
-                timerElement.style.color = '#fff';
-            }
         }
 
         target.addEventListener('click', () => {
             score++;
             updateScore();
             moveTarget();
-            target.classList.add('pop');
-            setTimeout(() => {
-                target.classList.remove('pop');
-            }, 300);
         });
 
         startButton.addEventListener('click', startGame);
         restartButton.addEventListener('click', startGame);
 
-        // Initial setup
         target.style.display = 'none';
-        gameContainer.classList.add('blur');
     </script>
 </body>
 </html>
