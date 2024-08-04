@@ -74,8 +74,7 @@ Try to beat your own personal best with each new game.
 <h3> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png" alt="Rocket" width="40" height="40" />Featured In</h3>
 
 <h3><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/tarikul-islam-anik/main/assets/images/Writing%20Hand%20Light%20Skin%20Tone.png" alt="Rocket" width="40" height="40" />Project Overview</h3>
-<p style="font-family:var(--ff-philosopher);">
-It is an online platform which enables you to get information about your vintage collections and to place the orders.</p>
+<p style="font-family:var(--ff-philosopher);">"Catch the Target" is an engaging, browser-based game that challenges players to test their reflexes and mouse accuracy. Players must click on a bouncing target as many times as possible within a 30-second time limit, aiming to achieve the highest score.</p>
 
 ## <p style="font-family:var(--ff-philosopher);font-size:3rem;text-align:center;"><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/High%20Voltage.png" alt="High Voltage" width="40" height="40" />Tech Stack</p>
 <center><a href="https://developer.mozilla.org/en-US/docs/Glossary/HTML5"><img src="https://img.shields.io/badge/HTML5-E34F26.svg?style=for-the-badge&logo=HTML5&logoColor=white"></a>
@@ -86,9 +85,6 @@ It is an online platform which enables you to get information about your vintage
 <br><br>
 
 ## Game Preview
-
-
-https://github.com/user-attachments/assets/ab4692fa-9bfc-4d07-a7b3-3ebe0d4bb353
 
 
 <br><br>
